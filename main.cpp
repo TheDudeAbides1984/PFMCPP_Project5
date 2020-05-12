@@ -1,23 +1,23 @@
 /*
  Project 5: Part 3 / 4
- video: Chapter 3 Part 4: 
+ video: Chapter 3 Part 4:
 
 Create a branch named Part3
 
  the 'new' keyword
 
  1) add #include "LeakedObjectDetector.h" to main
- 
+
  3) Add 'JUCE_LEAK_DETECTOR(OwnerClass)' at the end of your UDTs.
- 
+
  4) write the name of your class where it says "OwnerClass"
- 
+
  5) write wrapper classes for each type similar to how it was shown in the video
- 
+
  7) update main to use your wrapper classes, which have your UDTs as pointer member variables.
- 
+
  8) After you finish, click the [run] button.  Clear up any errors or warnings as best you can.
- 
+
  Commit your changes by clicking on the Source Control panel on the left, entering a message, and click [Commit and push].
 
 Make a pull request after you make your first commit and pin the pull request link to our DM thread.
@@ -25,13 +25,16 @@ Make a pull request after you make your first commit and pin the pull request li
 send me a DM to check your pull request
 
  Wait for my code review.
- 
+
  see here for an example: https://repl.it/@matkatmusic/ch3p04example
  */
 
 /*
  copied UDT 1:
  */
+#include <iomanip>
+#include <iostream>
+#include "LeakedObjectDetector.h"
 
 struct DAW
 {
@@ -68,6 +71,17 @@ struct DAW
 
         float updateVersion(float versionNumber = 6.08f);
     };
+    JUCE_LEAK_DETECTOR(DAW)
+};
+
+struct DAWWrapper
+{
+    DAWWrapper(DAW* ptr) : pointerToDAW(ptr) {}
+    ~DAWWrapper()
+    {
+        delete pointerToDAW;
+    }
+    DAW* pointerToDAW = nullptr;
 };
 
 DAW::DAW() : company("Cockos"),
@@ -127,6 +141,17 @@ struct Dog
                   << " lbs. I'm putting him on a weight gain diet so he can get up to "
                   << this->idealWeight << " lbs. \n" << std::endl;
     }
+    JUCE_LEAK_DETECTOR(Dog)
+};
+
+struct DogWrapper
+{
+    DogWrapper(Dog* ptr ) : pointerToDog(ptr) {}
+    ~DogWrapper()
+    {
+        delete pointerToDog;
+    }
+    Dog* pointerToDog = nullptr;
 };
 
 Dog::Dog() : name("Bob"),// inches
@@ -144,7 +169,7 @@ float Dog::gainWeight(float currentWeight, int idealDogWeight)
 {
     idealWeight = idealDogWeight;
     weight = currentWeight;
-    
+
     for (int i = 0; currentWeight < idealDogWeight; ++i)
     {
         ++currentWeight;
@@ -182,6 +207,17 @@ struct Cat
                   << "only only study " << this->sleep(this->napIntervals) << " hours per day. "
                   << "Otherwise she won't stay off the g!@#%$@ keyboard. \n" << std::endl;
     }
+    JUCE_LEAK_DETECTOR(Cat)
+};
+
+struct CatWrapper
+{
+    CatWrapper(Cat* ptr) : pointerToCat(ptr) {}
+    ~CatWrapper()
+    {
+        delete pointerToCat;
+    }
+    Cat* pointerToCat = nullptr;
 };
 
 Cat::Cat() = default;
@@ -216,6 +252,18 @@ struct PetsAndSoftware
         std::cout << "PetsAndSoftware destructor called.\n" << std::endl;
         std::cout << "Cat is finally going to sleep, now I can work.\n" << std::endl;
     }
+    JUCE_LEAK_DETECTOR(PetsAndSoftware)
+};
+
+struct PetsAndSoftwareWrapper
+{
+    PetsAndSoftwareWrapper(PetsAndSoftware* ptr) : pointerToPetsAndSoftware(ptr) {}
+
+    ~PetsAndSoftwareWrapper()
+    {
+        delete  pointerToPetsAndSoftware;
+    }
+    PetsAndSoftware* pointerToPetsAndSoftware = nullptr;
 };
 
 PetsAndSoftware::PetsAndSoftware() = default;
@@ -239,6 +287,17 @@ struct SoftwareAndPets
                   << " now up to " << fred.gainWeight(30,50)
                   << " lbs.\n" << std::endl;
     }
+    JUCE_LEAK_DETECTOR(SoftwareAndPets)
+};
+
+struct SoftwareAndPetsWrapper
+{
+    SoftwareAndPetsWrapper(SoftwareAndPets* ptr) : pointerToSoftwareAndPets(ptr) {}
+    ~SoftwareAndPetsWrapper()
+    {
+        delete  pointerToSoftwareAndPets;
+    }
+    SoftwareAndPets* pointerToSoftwareAndPets = nullptr;
 };
 
 SoftwareAndPets::SoftwareAndPets() = default;
@@ -246,40 +305,39 @@ SoftwareAndPets::SoftwareAndPets() = default;
 #include <iostream>
 int main()
 {
+    // DAW Struct
+
+    DAWWrapper dawWrapper(new DAW);
+    dawWrapper.pointerToDAW->mfcalcRecordStoragePerSecond();
+
+    // Dog Struct
+
+    DogWrapper dogWrapper(new Dog );
+
+    dogWrapper.pointerToDog->name = "Larry";
+    std::cout << "The new dog on the heaps name is " << dogWrapper.pointerToDog->name << "\n" << std::endl;
+
+    // Cat Struct
+
+    CatWrapper catWrapper (new Cat);
+
+    catWrapper.pointerToCat->napIntervals = 5;
+    catWrapper.pointerToCat->mfSleep();
+
+    // PetsAndSoftware
+
     PetsAndSoftware catAndFlutter;
-    SoftwareAndPets ptAndDog;
 
-    Dog bob;
-    bob.name = "Bob";
-    bob.gainWeight(45.0f,60);
+    PetsAndSoftwareWrapper petsAndSoftwareWrapper(new PetsAndSoftware);
+    petsAndSoftwareWrapper.pointerToPetsAndSoftware->dosia.sleep(4);
 
-    std::cout << bob.name << " is too skinny, and only weighs " << bob.weight
-              << " lbs. I'm putting him on a weight gain diet so he can get up to "
-              << bob.idealWeight << " lbs. \n" << std::endl;
+    // SoftwareAndPets
 
-    Dog bob2;
-    bob2.mfGainWeight();
-
-    Cat whiskers;
-    whiskers.napIntervals = 4;
-
-    std::cout << "I can only study code when my cat is sleeping. She takes hour "
-              << "long naps every " << whiskers.napIntervals << " hours. \nSo I can "
-              << "only only study " << whiskers.sleep(4) << " hours per day. "
-              << "Otherwise she won't stay off the g!@#%$@ keyboard. \n" << std::endl;
-
-    Cat whiskers2;
-
-    whiskers2.mfSleep();
-
-    DAW reaper;
-
-    std::cout << "A wav file at 16 bit/ 44.1 K consumes 88.2KB in storage per second. \nSo recording 10 files for 3 minutes will consume "
-              << std::setprecision(2) << reaper.calcRecordStoragePerSecond(10, 60.0) << " MB in hard drive space.\n" << std::endl;
-
-    DAW logic;
-
-    logic.mfcalcRecordStoragePerSecond();
+    SoftwareAndPetsWrapper softwareAndPetsWrapper(new SoftwareAndPets);
+    softwareAndPetsWrapper.pointerToSoftwareAndPets->logic.channelCount = 48;
+    std::cout << "The channel count for the new DAW on the heap for this session is " <<
+    softwareAndPetsWrapper.pointerToSoftwareAndPets->logic.channelCount <<
+    ".\n" << std::endl;
 
     std::cout << "good to go!" << std::endl;
 }
