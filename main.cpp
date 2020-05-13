@@ -15,7 +15,21 @@ Create a branch named Part3
  5) write wrapper classes for each type similar to how it was shown in the video
 
  7) update main to use your wrapper classes, which have your UDTs as pointer member variables.
+    This means if you had something like the following in your main() previously: 
+*/
+#if false
+ Axe axe;
+ std::cout << "axe sharpness: " << axe.sharpness << "\n";
+ #endif
+ /*
+    you would update that to use your wrappers:
+ */
 
+#if false
+AxeWrapper axWrapper( new Axe() );
+std::cout << "axe sharpness: " << axWrapper.axPtr->sharpness << "\n";
+#endif
+/*
  8) After you finish, click the [run] button.  Clear up any errors or warnings as best you can.
 
  Commit your changes by clicking on the Source Control panel on the left, entering a message, and click [Commit and push].
