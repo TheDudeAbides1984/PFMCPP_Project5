@@ -15,15 +15,15 @@ Create a branch named Part3
  5) write wrapper classes for each type similar to how it was shown in the video
 
  7) update main to use your wrapper classes, which have your UDTs as pointer member variables.
-    This means if you had something like the following in your main() previously: 
+    This means if you had something like the following in your main() previously:
 */
 #if false
- Axe axe;
+Axe axe;
  std::cout << "axe sharpness: " << axe.sharpness << "\n";
- #endif
- /*
-    you would update that to use your wrappers:
- */
+#endif
+/*
+   you would update that to use your wrappers:
+*/
 
 #if false
 AxeWrapper axWrapper( new Axe() );
@@ -52,11 +52,13 @@ send me a DM to check your pull request
 
 struct DAW
 {
-    DAW();
-    ~DAW()
+    DAW ();
+
+    ~DAW ()
     {
         std::cout << ("DAW struct destructor called\n") << std::endl;
     }
+
     std::string company;
     int price;
     int compatiblePlatforms; // Windows and Mac
@@ -64,53 +66,62 @@ struct DAW
     int maxPluginsPerChannel; //no limit
     float versionNumber;
 
-    void record(int channelCount);
-    void edit(int channelCount);
-    void mix(int channelCount, int maxPluginsPerChannel);
-    float calcRecordStoragePerSecond(int numOfFiles, float maxRecordTime);
+    void record (int channelCount);
 
-    void mfcalcRecordStoragePerSecond()
+    void edit (int channelCount);
+
+    void mix (int channelCount, int maxPluginsPerChannel);
+
+    float calcRecordStoragePerSecond (int numOfFiles, float maxRecordTime);
+
+    void mfcalcRecordStoragePerSecond ()
     {
         std::cout << "A wav file at 16 bit/ 44.1 K consumes 88.2KB in storage per second. "
                   << "\nSo recording 10 files for 3 minutes will consume "
-                  << std::setprecision(2) << this->calcRecordStoragePerSecond(10, 60.0)
+                  << std::setprecision (2) << this->calcRecordStoragePerSecond (10, 60.0)
                   << " MB in hard drive space.\n" << std::endl;
     }
 
     struct Software
     {
-        Software();
+        Software ();
+
         std::string name = "Reaper";
         float versionNumber = 6.08f;
 
-        float updateVersion(float versionNumber = 6.08f);
+        float updateVersion (float versionNumber = 6.08f);
     };
+
     JUCE_LEAK_DETECTOR(DAW)
 };
 
 struct DAWWrapper
 {
-    DAWWrapper(DAW* ptr) : pointerToDAW(ptr) {}
-    ~DAWWrapper()
+    DAWWrapper (DAW* ptr) : pointerToDAW (ptr)
+    {}
+
+    ~DAWWrapper ()
     {
         delete pointerToDAW;
     }
+
     DAW* pointerToDAW = nullptr;
 };
 
-DAW::DAW() : company("Cockos"),
-             price(60),
-             compatiblePlatforms(2),
-             channelCount(0),
-             maxPluginsPerChannel(0),
-             versionNumber(6.08f)
+DAW::DAW () : company ("Cockos"),
+              price (60),
+              compatiblePlatforms (2),
+              channelCount (0),
+              maxPluginsPerChannel (0),
+              versionNumber (6.08f)
 {
 
 }
 
-DAW::Software::Software() {}
+DAW::Software::Software ()
+{}
 
-float DAW::calcRecordStoragePerSecond(int numOfFiles, float maxRecordTime)
+float DAW::calcRecordStoragePerSecond (int numOfFiles, float maxRecordTime)
 {
     float totalStorageInKB = 0;
     float numOfSeconds = 0;
@@ -138,48 +149,55 @@ struct Dog
     float hairLength;
     int idealWeight;
 
-    Dog();
-    ~Dog()
+    Dog ();
+
+    ~Dog ()
     {
         std::cout << ("Dog struct destructor called\n") << std::endl;
     }
 
     float run (float weight, std::string breed); // to determine a general speed
-    void bark(std::string breed, std::string temperament);
-    void whine(std::string breed, std::string temperament);
-    float gainWeight(float currentWeight, int idealDogWeight);
+    void bark (std::string breed, std::string temperament);
 
-    void mfGainWeight()
+    void whine (std::string breed, std::string temperament);
+
+    float gainWeight (float currentWeight, int idealDogWeight);
+
+    void mfGainWeight ()
     {
         std::cout << this->name << " is too skinny, and only weighs " << this->weight
                   << " lbs. I'm putting him on a weight gain diet so he can get up to "
                   << this->idealWeight << " lbs. \n" << std::endl;
     }
+
     JUCE_LEAK_DETECTOR(Dog)
 };
 
 struct DogWrapper
 {
-    DogWrapper(Dog* ptr ) : pointerToDog(ptr) {}
-    ~DogWrapper()
+    DogWrapper (Dog* ptr) : pointerToDog (ptr)
+    {}
+
+    ~DogWrapper ()
     {
         delete pointerToDog;
     }
+
     Dog* pointerToDog = nullptr;
 };
 
-Dog::Dog() : name("Bob"),// inches
-             hairColor  ("brown"),
-             breed ( "doberman"),
-             temperament ("aggressive"),
-             weight (45.0f), // pounds
-             hairLength (0.5f),
-             idealWeight (60)
+Dog::Dog () : name ("Bob"),// inches
+              hairColor ("brown"),
+              breed ("doberman"),
+              temperament ("aggressive"),
+              weight (45.0f), // pounds
+              hairLength (0.5f),
+              idealWeight (60)
 {
 
 }
 
-float Dog::gainWeight(float currentWeight, int idealDogWeight)
+float Dog::gainWeight (float currentWeight, int idealDogWeight)
 {
     idealWeight = idealDogWeight;
     weight = currentWeight;
@@ -197,8 +215,9 @@ float Dog::gainWeight(float currentWeight, int idealDogWeight)
 
 struct Cat
 {
-    Cat();
-    ~Cat()
+    Cat ();
+
+    ~Cat ()
     {
         std::cout << ("Cat struct destructor called\n") << std::endl;
     }
@@ -209,34 +228,41 @@ struct Cat
     float hairLength = 0.75f;
     int napIntervals = 4; // hours
 
-    void meow(std::string breed, std::string temperament);
-    void purr(std::string breed, std::string temperament);
-    void scratch(std::string breed, std::string temperament);
-    int sleep(int catNapIntervals);
+    void meow (std::string breed, std::string temperament);
 
-    void mfSleep()
+    void purr (std::string breed, std::string temperament);
+
+    void scratch (std::string breed, std::string temperament);
+
+    int sleep (int catNapIntervals);
+
+    void mfSleep ()
     {
         std::cout << "I can only study code when my cat is sleeping. She takes hour "
                   << "long naps every " << this->napIntervals << " hours. \nSo I can "
-                  << "only only study " << this->sleep(this->napIntervals) << " hours per day. "
+                  << "only only study " << this->sleep (this->napIntervals) << " hours per day. "
                   << "Otherwise she won't stay off the g!@#%$@ keyboard. \n" << std::endl;
     }
+
     JUCE_LEAK_DETECTOR(Cat)
 };
 
 struct CatWrapper
 {
-    CatWrapper(Cat* ptr) : pointerToCat(ptr) {}
-    ~CatWrapper()
+    CatWrapper (Cat* ptr) : pointerToCat (ptr)
+    {}
+
+    ~CatWrapper ()
     {
         delete pointerToCat;
     }
+
     Cat* pointerToCat = nullptr;
 };
 
-Cat::Cat() = default;
+Cat::Cat () = default;
 
-int Cat::sleep(int catNapIntervals)
+int Cat::sleep (int catNapIntervals)
 {
     napIntervals = catNapIntervals;
     int hoursICanStudy = 0;
@@ -256,31 +282,35 @@ int Cat::sleep(int catNapIntervals)
 
 struct PetsAndSoftware
 {
-    PetsAndSoftware();
+    PetsAndSoftware ();
+
     Cat dosia;
     Dog fido;
     DAW studioOne;
 
-    ~PetsAndSoftware()
+    ~PetsAndSoftware ()
     {
         std::cout << "PetsAndSoftware destructor called.\n" << std::endl;
         std::cout << "Cat is finally going to sleep, now I can work.\n" << std::endl;
     }
+
     JUCE_LEAK_DETECTOR(PetsAndSoftware)
 };
 
 struct PetsAndSoftwareWrapper
 {
-    PetsAndSoftwareWrapper(PetsAndSoftware* ptr) : pointerToPetsAndSoftware(ptr) {}
+    PetsAndSoftwareWrapper (PetsAndSoftware* ptr) : pointerToPetsAndSoftware (ptr)
+    {}
 
-    ~PetsAndSoftwareWrapper()
+    ~PetsAndSoftwareWrapper ()
     {
-        delete  pointerToPetsAndSoftware;
+        delete pointerToPetsAndSoftware;
     }
+
     PetsAndSoftware* pointerToPetsAndSoftware = nullptr;
 };
 
-PetsAndSoftware::PetsAndSoftware() = default;
+PetsAndSoftware::PetsAndSoftware () = default;
 
 /*
  new UDT 5:
@@ -288,70 +318,137 @@ PetsAndSoftware::PetsAndSoftware() = default;
 
 struct SoftwareAndPets
 {
-    SoftwareAndPets();
+    SoftwareAndPets ();
+
     Cat max;
     Dog fred;
     DAW logic;
 
-    ~SoftwareAndPets()
+    ~SoftwareAndPets ()
     {
         std::cout << "Software and pets destructor called. \n" << std::endl;
         fred.name = "Fred";
         std::cout << fred.name << " has finally put on weight. He's"
-                  << " now up to " << fred.gainWeight(30,50)
+                  << " now up to " << fred.gainWeight (30, 50)
                   << " lbs.\n" << std::endl;
     }
+
     JUCE_LEAK_DETECTOR(SoftwareAndPets)
 };
 
 struct SoftwareAndPetsWrapper
 {
-    SoftwareAndPetsWrapper(SoftwareAndPets* ptr) : pointerToSoftwareAndPets(ptr) {}
-    ~SoftwareAndPetsWrapper()
+    SoftwareAndPetsWrapper (SoftwareAndPets* ptr) : pointerToSoftwareAndPets (ptr)
+    {}
+
+    ~SoftwareAndPetsWrapper ()
     {
-        delete  pointerToSoftwareAndPets;
+        delete pointerToSoftwareAndPets;
     }
+
     SoftwareAndPets* pointerToSoftwareAndPets = nullptr;
 };
 
-SoftwareAndPets::SoftwareAndPets() = default;
+SoftwareAndPets::SoftwareAndPets () = default;
 
 #include <iostream>
-int main()
+
+int main ()
 {
-    // DAW Struct
+    // Dog Struct Part 1 & 2
 
-    DAWWrapper dawWrapper(new DAW);
-    dawWrapper.pointerToDAW->mfcalcRecordStoragePerSecond();
+    Dog bob;
+    bob.name = "Bob";
+    bob.gainWeight (45.0f, 60);
 
-    // Dog Struct
+    std::cout << bob.name << " is too skinny, and only weighs " << bob.weight
+              << " lbs. I'm putting him on a weight gain diet so he can get up to "
+              << bob.idealWeight << " lbs. \n" << std::endl;
 
-    DogWrapper dogWrapper(new Dog );
+    Dog bob2;
+    bob2.mfGainWeight ();
 
+    // Dog struct Part 3
+
+    DogWrapper dogWrapper (new Dog);
     dogWrapper.pointerToDog->name = "Larry";
-    std::cout << "The new dog on the heaps name is " << dogWrapper.pointerToDog->name << "\n" << std::endl;
+    dogWrapper.pointerToDog->gainWeight (30.0, 45);
+    dogWrapper.pointerToDog->mfGainWeight ();
 
-    // Cat Struct
+    // Cat struct Part 1 & 2
+
+    Cat whiskers;
+    whiskers.napIntervals = 4;
+
+    std::cout << "I can only study code when my cat is sleeping. She takes hour "
+              << "long naps every " << whiskers.napIntervals << " hours. \nSo I can "
+              << "only only study " << whiskers.sleep (4) << " hours per day. "
+              << "Otherwise she won't stay off the g!@#%$@ keyboard. \n" << std::endl;
+
+    Cat whiskers2;
+
+    whiskers2.mfSleep ();
+
+    // Cat struct part 3
 
     CatWrapper catWrapper (new Cat);
 
     catWrapper.pointerToCat->napIntervals = 5;
-    catWrapper.pointerToCat->mfSleep();
 
-    // PetsAndSoftware
+    std::cout << "I can only study code when my cat is sleeping. She takes hour "
+              << "long naps every " << catWrapper.pointerToCat->napIntervals 
+              << " hours. \nSo I can "
+              << "only only study " << catWrapper.pointerToCat->sleep (5) 
+              << " hours per day.Otherwise she won't stay off the g!@#%$@ keyboard. \n" 
+              << std::endl;
+
+    catWrapper.pointerToCat->mfSleep ();
+
+    // DAW struct Part 1 & 2
+
+    DAW reaper;
+
+    std::cout
+            << "A wav file at 16 bit/ 44.1 K consumes 88.2KB in storage per second. \n"
+            << "So recording 10 files for 3 minutes will consume "
+            << std::setprecision (2) << reaper.calcRecordStoragePerSecond (10, 60.0)
+            << " MB in hard drive space.\n" << std::endl;
+
+    DAW logic;
+
+    logic.mfcalcRecordStoragePerSecond ();
+
+    // DAW struct Part 3
+
+    DAWWrapper dawWrapper (new DAW);
+
+    std::cout << "A wav file at 16 bit/ 44.1 K consumes 88.2KB in storage per second."
+              << "\nSo recording 10 files for 3 minutes will consume "
+              << std::setprecision (2) << dawWrapper.pointerToDAW->calcRecordStoragePerSecond (10, 60.0)
+              << " MB in hard drive space.\n" << std::endl;
+
+    dawWrapper.pointerToDAW->mfcalcRecordStoragePerSecond ();
+
+    // PetsandSoftware struct Part 1 & 2
 
     PetsAndSoftware catAndFlutter;
 
-    PetsAndSoftwareWrapper petsAndSoftwareWrapper(new PetsAndSoftware);
-    petsAndSoftwareWrapper.pointerToPetsAndSoftware->dosia.sleep(4);
+    // PetsandSoftware struct Part 3
 
-    // SoftwareAndPets
+    PetsAndSoftwareWrapper petsAndSoftwareWrapper (new PetsAndSoftware);
+    petsAndSoftwareWrapper.pointerToPetsAndSoftware->dosia.sleep (4);
 
-    SoftwareAndPetsWrapper softwareAndPetsWrapper(new SoftwareAndPets);
+    // SoftwareAndPets struct Part 1 & 2
+
+    SoftwareAndPets ptAndDog;
+
+    // SoftwareAndPets struct Part 3
+
+    SoftwareAndPetsWrapper softwareAndPetsWrapper (new SoftwareAndPets);
     softwareAndPetsWrapper.pointerToSoftwareAndPets->logic.channelCount = 48;
-    std::cout << "The channel count for the new DAW on the heap for this session is " <<
-    softwareAndPetsWrapper.pointerToSoftwareAndPets->logic.channelCount <<
-    ".\n" << std::endl;
-
+    std::cout << "The channel count for the new DAW on the heap for this session is "
+              << softwareAndPetsWrapper.pointerToSoftwareAndPets->logic.channelCount
+              << ".\n" << std::endl;
+    
     std::cout << "good to go!" << std::endl;
 }
