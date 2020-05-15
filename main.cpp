@@ -349,106 +349,51 @@ struct SoftwareAndPetsWrapper
     SoftwareAndPets* pointerToSoftwareAndPets = nullptr;
 };
 
-SoftwareAndPets::SoftwareAndPets () = default;
+SoftwareAndPets::SoftwareAndPets () = default;  //oooo you fancy with the 'default' lol!
 
 #include <iostream>
 
 int main ()
 {
-    // Dog Struct Part 1 & 2
+    DogWrapper bob(new Dog());
+    bob.pointerToDog->name = "Bob";
+    bob.pointerToDog->gainWeight (45.0f, 60);
 
-    Dog bob;
-    bob.name = "Bob";
-    bob.gainWeight (45.0f, 60);
+    std::cout << bob.pointerToDog->name << " is too skinny, and only weighs " 
+              << bob.pointerToDog->weight << " lbs. I'm putting him on a weight gain "
+              << "diet so he can get up to "
+              << bob.pointerToDog->idealWeight << " lbs. \n" << std::endl;
 
-    std::cout << bob.name << " is too skinny, and only weighs " << bob.weight
-              << " lbs. I'm putting him on a weight gain diet so he can get up to "
-              << bob.idealWeight << " lbs. \n" << std::endl;
+    DogWrapper bob2(new Dog());
+    bob2.pointerToDog->mfGainWeight ();
 
-    Dog bob2;
-    bob2.mfGainWeight ();
-
-    // Dog struct Part 3
-
-    DogWrapper dogWrapper (new Dog);
-    dogWrapper.pointerToDog->name = "Larry";
-    dogWrapper.pointerToDog->gainWeight (30.0, 45);
-    dogWrapper.pointerToDog->mfGainWeight ();
-
-    // Cat struct Part 1 & 2
-
-    Cat whiskers;
-    whiskers.napIntervals = 4;
+    CatWrapper whiskers(new Cat());//Cat whiskers;  <<<< Do this
+    whiskers.pointerToCat->napIntervals = 4;
 
     std::cout << "I can only study code when my cat is sleeping. She takes hour "
-              << "long naps every " << whiskers.napIntervals << " hours. \nSo I can "
-              << "only only study " << whiskers.sleep (4) << " hours per day. "
-              << "Otherwise she won't stay off the g!@#%$@ keyboard. \n" << std::endl;
-
-    Cat whiskers2;
-
-    whiskers2.mfSleep ();
-
-    // Cat struct part 3
-
-    CatWrapper catWrapper (new Cat);
-
-    catWrapper.pointerToCat->napIntervals = 5;
-
-    std::cout << "I can only study code when my cat is sleeping. She takes hour "
-              << "long naps every " << catWrapper.pointerToCat->napIntervals 
-              << " hours. \nSo I can "
-              << "only only study " << catWrapper.pointerToCat->sleep (5) 
+              << "long naps every " << whiskers.pointerToCat->napIntervals 
+              << " hours. \nSo I can only only study " << whiskers.pointerToCat->sleep(4)
               << " hours per day.Otherwise she won't stay off the g!@#%$@ keyboard. \n" 
               << std::endl;
 
-    catWrapper.pointerToCat->mfSleep ();
+    CatWrapper whiskers2(new Cat()); 
+    whiskers2.pointerToCat->mfSleep();
 
-    // DAW struct Part 1 & 2
-
-    DAW reaper;
+    DAWWrapper reaper(new DAW());
 
     std::cout
             << "A wav file at 16 bit/ 44.1 K consumes 88.2KB in storage per second. \n"
             << "So recording 10 files for 3 minutes will consume "
-            << std::setprecision (2) << reaper.calcRecordStoragePerSecond (10, 60.0)
+            << std::setprecision (2) << reaper.pointerToDAW->calcRecordStoragePerSecond (10, 60.0)
             << " MB in hard drive space.\n" << std::endl;
 
-    DAW logic;
+    DAWWrapper logic(new DAW());
 
-    logic.mfcalcRecordStoragePerSecond ();
+    logic.pointerToDAW->mfcalcRecordStoragePerSecond ();
 
-    // DAW struct Part 3
+    PetsAndSoftwareWrapper catAndFlutter(new PetsAndSoftware());
 
-    DAWWrapper dawWrapper (new DAW);
+    SoftwareAndPetsWrapper ptAndDog(new SoftwareAndPets());
 
-    std::cout << "A wav file at 16 bit/ 44.1 K consumes 88.2KB in storage per second."
-              << "\nSo recording 10 files for 3 minutes will consume "
-              << std::setprecision (2) << dawWrapper.pointerToDAW->calcRecordStoragePerSecond (10, 60.0)
-              << " MB in hard drive space.\n" << std::endl;
-
-    dawWrapper.pointerToDAW->mfcalcRecordStoragePerSecond ();
-
-    // PetsandSoftware struct Part 1 & 2
-
-    PetsAndSoftware catAndFlutter;
-
-    // PetsandSoftware struct Part 3
-
-    PetsAndSoftwareWrapper petsAndSoftwareWrapper (new PetsAndSoftware);
-    petsAndSoftwareWrapper.pointerToPetsAndSoftware->dosia.sleep (4);
-
-    // SoftwareAndPets struct Part 1 & 2
-
-    SoftwareAndPets ptAndDog;
-
-    // SoftwareAndPets struct Part 3
-
-    SoftwareAndPetsWrapper softwareAndPetsWrapper (new SoftwareAndPets);
-    softwareAndPetsWrapper.pointerToSoftwareAndPets->logic.channelCount = 48;
-    std::cout << "The channel count for the new DAW on the heap for this session is "
-              << softwareAndPetsWrapper.pointerToSoftwareAndPets->logic.channelCount
-              << ".\n" << std::endl;
-    
     std::cout << "good to go!" << std::endl;
 }
